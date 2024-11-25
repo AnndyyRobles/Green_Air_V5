@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StationInfo from '../../components/StationInfo.astro';
+import AirQualityStatus from '../../components/AirQualityStatus.astro';
+import WeatherInfo from '../../components/WeatherInfo.astro';
+import PollutantsList from '../../components/PollutantsList.astro';
+import AirQualityChart from '../../components/AirQualityChart';
+import AlertsTable from '../../components/AlertsTable';
+import { getStationData } from '../../utils/api';
+
+const { id } = Astro.params;
+const stationData = await getStationData(id);
+---
+
+<Layout title={`${stationData.name} Dashboard - GreenAir`}>
+  <div class="min-h-screen bg-app-black p-6">
+    <StationInfo station={stationData} />
+    
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <AirQualityStatus
+        quality={stationData.airQuality.status}
+        value={stationData.airQuality.value}
+      />
+      <WeatherInfo
+        temperature={stationData.weather.temperature}
+        humidity={stationData.weather.humidity}
+        windSpeed={stationData.weather.windSpeed}
+      />
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+      <PollutantsList pollutants={stationData.pollutants} />
+      <AirQualityChart client:load data={stationData.chartData} />
+    </div>
+
+    <AlertsTable client:load alerts={stationData.alerts} />
+  </div>
+</Layout>

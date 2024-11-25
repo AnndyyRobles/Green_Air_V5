@@ -1,0 +1,45 @@
+---
+const { quality, value } = Astro.props;
+
+const getStatusColor = (quality) => {
+  switch (quality.toLowerCase()) {
+    case 'buena': return 'bg-green-500';
+    case 'moderada': return 'bg-yellow-500';
+    case 'mala': return 'bg-red-500';
+    default: return 'bg-gray-500';
+  }
+};
+---
+
+<div class="bg-app-card p-6 rounded-lg">
+  <h2 class="text-xl font-semibold text-white mb-4">Calidad del Aire</h2>
+  <div class="flex items-center justify-between">
+    <div>
+      <span class={`inline-block px-4 py-2 rounded-full ${getStatusColor(quality)} text-white font-medium`}>
+        {quality}
+      </span>
+      <p class="mt-2 text-app-text/70">Índice: {value}</p>
+    </div>
+    <div class="w-24 h-24 relative">
+      <svg class="transform -rotate-90" viewBox="0 0 36 36">
+        <path
+          d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"
+          fill="none"
+          stroke="#444"
+          stroke-width="3"
+        />
+        <path
+          d="M18 2.0845
+            a 15.9155 15.9155 0 0 1 0 31.831
+            a 15.9155 15.9155 0 0 1 0 -31.831"
+          fill="none"
+          stroke={quality === 'buena' ? '#22c55e' : quality === 'moderada' ? '#eab308' : '#ef4444'}
+          stroke-width="3"
+          stroke-dasharray={`${value}, 100`}
+        />
+      </svg>
+    </div>
+  </div>
+</div>

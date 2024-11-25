@@ -1,0 +1,35 @@
+---
+const { temperature, humidity, windSpeed } = Astro.props;
+---
+
+<div class="grid grid-cols-3 gap-4">
+  <div class="bg-app-card p-4 rounded-lg">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-temperature-high text-app-green text-xl"></i>
+      <div>
+        <p class="text-sm text-app-text/70">Temperatura</p>
+        <p class="text-lg font-semibold text-white">{temperature}°C</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-app-card p-4 rounded-lg">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-tint text-app-blue text-xl"></i>
+      <div>
+        <p class="text-sm text-app-text/70">Humedad</p>
+        <p class="text-lg font-semibold text-white">{humidity}%</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="bg-app-card p-4 rounded-lg">
+    <div class="flex items-center space-x-3">
+      <i class="fas fa-wind text-app-text text-xl"></i>
+      <div>
+        <p class="text-sm text-app-text/70">Viento</p>
+        <p class="text-lg font-semibold text-white">{windSpeed} km/h</p>
+      </div>
+    </div>
+  </div>
+</div>

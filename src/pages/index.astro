@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SearchSection from '../components/SearchSection.astro';
+import RegionList from '../components/RegionList.astro';
+import { getRegions } from '../utils/api';
+
+const regions = await getRegions();
+---
+
+<Layout title="GreenAir - Air Quality Monitoring">
+  <div class="min-h-screen bg-app-black">
+    <section class="py-20 px-4">
+      <div class="container mx-auto text-center">
+        <h1 class="text-5xl font-bold text-app-text mb-6">
+          Monitor Air Quality in Real-Time
+        </h1>
+        <p class="text-xl text-app-text/70 mb-12">
+          Get accurate air quality data for your region
+        </p>
+        <SearchSection />
+      </div>
+    </section>
+
+    <section class="py-16 bg-app-dark">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-app-text mb-8">Available Regions</h2>
+        <RegionList regions={regions} />
+      </div>
+    </section>
+  </div>
+</Layout>

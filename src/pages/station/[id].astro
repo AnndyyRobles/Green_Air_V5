@@ -1,0 +1,63 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getStationData } from '../../utils/api';
+
+const { id } = Astro.params;
+const stationData = await getStationData(id);
+
+if (!stationData) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={`${stationData.name} - Dashboard`}>
+  <div class="min-h-screen bg-app-black p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Información básica de la estación -->
+      <div class="bg-app-card p-6 rounded-lg">
+        <h2 class="text-2xl font-bold text-app-text mb-4">{stationData.name}</h2>
+        <p class="text-app-text/70">{stationData.region.name}</p>
+        <div class="mt-4 grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-sm text-app-text/70">Latitud</p>
+            <p class="text-app-text">{stationData.latitude}</p>
+          </div>
+          <div>
+            <p class="text-sm text-app-text/70">Longitud</p>
+            <p class="text-app-text">{stationData.longitude}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Última medición -->
+      {stationData.measurements.length > 0 && (
+        <div class="bg-app-card p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-app-text mb-4">Última medición</h3>
+          <p class="text-app-text">
+            Calidad del aire: {stationData.measurements[0].quality_index}
+          </p>
+          <p class="text-app-text">
+            Valor: {stationData.measurements[0].concentration_value}
+          </p>
+        </div>
+      )}
+
+      <!-- Condiciones climáticas -->
+      {stationData.weather && (
+        <div class="bg-app-card p-6 rounded-lg">
+          <h3 class="text-xl font-bold text-app-text mb-4">Clima actual</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-app-text/70">Temperatura</p>
+              <p class="text-app-text">{stationData.weather.temperature}°C</p>
+            </div>
+            <div>
+              <p class="text-sm text-app-text/70">Humedad</p>
+              <p class="text-app-text">{stationData.weather.humidity}%</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>

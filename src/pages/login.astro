@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LoginForm from '../components/LoginForm';
+---
+
+<Layout title="Login - GreenAir">
+  <div class="min-h-screen bg-app-black flex items-center justify-center px-4">
+    <div class="w-full max-w-md">
+      <LoginForm client:load />
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,36 @@
+---
+import { isAuthenticated, getUser } from '../utils/auth';
+
+const user = isAuthenticated() ? await getUser() : null;
+---
+
+<nav class="bg-app-dark py-4">
+  <div class="container mx-auto px-4 flex justify-between items-center">
+    <a href="/" class="text-2xl font-bold text-app-green">GreenAir</a>
+    
+    <div class="flex items-center space-x-6">
+      <a href="/dashboard" class="text-app-text hover:text-app-green">Dashboard</a>
+      {user ? (
+        <div class="flex items-center space-x-4">
+          <a href="/profile" class="text-app-text hover:text-app-green">Profile</a>
+          <button id="logout" class="text-app-text hover:text-app-green">Logout</button>
+        </div>
+      ) : (
+        <div class="flex items-center space-x-4">
+          <a href="/login" class="text-app-text hover:text-app-green">Login</a>
+          <a href="/register" class="bg-app-green text-app-black px-4 py-2 rounded-lg hover:bg-opacity-90">
+            Sign Up
+          </a>
+        </div>
+      )}
+    </div>
+  </div>
+</nav>
+
+<script>
+  document.getElementById('logout')?.addEventListener('click', () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/';
+  });
+</script>
